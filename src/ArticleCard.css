@@ -1,0 +1,22 @@
+.article-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.article-card h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+}
+
+.article-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.article-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
