@@ -1,13 +1,13 @@
-import Header from './Header.jsx'
-import HomePage from './HomePage.jsx'
-import Footer from './Footer.jsx'
-import './App.css'
+import Header from './components/Header.jsx'
+import Footer from './components/Footer.jsx'
+import './assets/App.css'
+import ArticleList from './components/ArticleList.jsx';
 
 const App = () => {
   return (
     <>
       <Header/>
-      <HomePage/>
+      <ArticleList/>
       <Footer/>
     </>
   )
