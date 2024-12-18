@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from 'axios'
+import axios from 'axios';
 
 const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(false); 
+    const [error, setError] = useState(null);
 
     useEffect(() => {
+        setIsLoading(true);
+        setError(null);
+
         const controller = new AbortController();
         const signal = controller.signal;
 
@@ -17,12 +20,10 @@ const useFetch = (url) => {
             })
             .catch((error) => {
                 if (axios.isCancel(error)) {
-                    console.log("Request canceled");
                 } else {
-                    console.log("Error fetching data");
-                    setError(true);
+                    setError(error.message);
+                    setIsLoading(false);
                 }
-                setIsLoading(false);
             });
 
         return () => {
@@ -31,6 +32,6 @@ const useFetch = (url) => {
     }, [url]);
 
     return { data, isLoading, error };
-}
+};
 
 export default useFetch;
