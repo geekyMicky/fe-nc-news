@@ -2,24 +2,35 @@ import { useState, useEffect } from "react";
 import axios from 'axios'
 
 const useFetch = (url) => {
-    const [articles, setArticles] = useState([]);
+    const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null); 
+    const [error, setError] = useState(false); 
 
     useEffect(() => {
-        axios.get(url).then((response) => {
-            const sortedArticles = response.data.articles.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-            setArticles(sortedArticles);
-            setIsLoading(false)
-        })
-        .catch((error) => {
-            console.log("Error fetching articles:", error);
-            setError("Error fetching articles");
-            setIsLoading(false);
-        });
-    }, []);
+        const controller = new AbortController();
+        const signal = controller.signal;
 
-    return {articles, isLoading, error};
+        axios.get(url, { signal })
+            .then((response) => {
+                setData(response.data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {
+                    console.log("Request canceled");
+                } else {
+                    console.log("Error fetching data");
+                    setError(true);
+                }
+                setIsLoading(false);
+            });
+
+        return () => {
+            controller.abort();
+        };
+    }, [url]);
+
+    return { data, isLoading, error };
 }
 
 export default useFetch;
