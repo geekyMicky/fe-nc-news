@@ -6,9 +6,11 @@ const ArticleList = () => {
 
     const {data, isLoading, error} = useFetch("https://nc-news-be-project-k6p0.onrender.com/api/articles");
 
-    const sortedArticles = data?.articles 
-        ? data.articles.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        : [];
+    let sortedArticles = [];
+    
+    if (data && data.articles) {
+        sortedArticles = data.articles.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
 
     return (
         <div className="ArticleList">

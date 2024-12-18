@@ -1,25 +1,28 @@
 import { useParams, Link } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import '../assets/ArticleDetail.css';
+import CommentCard from './CommentCard';
 
 const ArticleDetail = () => {
     const { articleId } = useParams();
-    const { data, isLoading, error } = useFetch(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`);
+    const { data: articleData, isLoading: articleLoading, error: articleError } 
+        = useFetch(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`);
+    
+    const { data: commentsData, isLoading: commentsLoading, error: commentsError }
+        = useFetch(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-    if (!data) {
-        return null;
-    }
-    if (!data.article) {
-        return <div>Article not found</div>;
-    }
+    if (articleLoading) return <div>Loading article...</div>;
+    if (commentsLoading) return <div>Loading comments...</div>;
+    if (articleError) return <div>Error: {articleError}</div>;
+    if (commentsError) return <div>Error loading comments: {commentsError}</div>;
+    if (!articleData || !articleData.article ) return <div>Article not found</div>;
+    if (!commentsData || !commentsData.comments) return <div>No comments found</div>;
 
-    const article = data.article;
+    const article = articleData?.article;
+    let sortedComments = [];
+    if (commentsData && commentsData.comments) {
+        sortedComments = commentsData.comments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
 
     return (
         <div className="article-detail">
@@ -27,14 +30,19 @@ const ArticleDetail = () => {
             <h2>{article.title}</h2>
             <img src={article.article_img_url} alt={article.title} />
             <p className="article-body">{article.body}</p>
-            <>
+            <div className = "article-meta">
                 <p>By: {article.author}</p>
                 <p>Topic: {article.topic}</p>
                 <p>Date: {new Date(article.created_at).toLocaleDateString()}</p>
                 <p>Comments: {article.comment_count}</p>
                 <p>Votes: {article.votes}</p>
-            </>
-            <CommentCard articleId={articleId} />
+            </div>
+            <div className="comments-section">
+                <h3>Comments</h3>
+                {sortedComments.map(comment => (
+                    <CommentCard key={comment.comment_id} comment={comment}/>
+                ))}
+            </div>
         </div>
     );
 }
