@@ -1,10 +1,10 @@
 import '../assets/ArticleList.css'
-import useFetch from "../hooks/useFetch";
+import useAxios from "../hooks/useAxios";
 import ArticleCard from './ArticleCard';
 
 const ArticleList = () => {
 
-    const {data, isLoading, error} = useFetch("https://nc-news-be-project-k6p0.onrender.com/api/articles");
+    const {data, isLoading, error} = useAxios("https://nc-news-be-project-k6p0.onrender.com/api/articles");
 
     let sortedArticles = [];
     
