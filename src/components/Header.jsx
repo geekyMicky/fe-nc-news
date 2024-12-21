@@ -1,7 +1,7 @@
 import '../styling/Header.css'
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { userContext } from '../contexts/User';
+import { userContext } from '../contexts/userContext';
 
 const Header = () => {
     const { user, isLoggedIn, setIsLoggedIn, setUser } = useContext(userContext);

@@ -1,5 +1,5 @@
 import './styling/App.css';
-import { UserProvider } from './contexts/User';
+import { UserProvider } from './contexts/userContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ArticleList from './components/ArticleList';
