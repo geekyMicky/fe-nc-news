@@ -1,0 +1,29 @@
+.author-date {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    border-top: 1px solid #dcdcdc;
+    padding-top: 12px;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    font-family: 'Guardian Text Sans', Arial, sans-serif;
+    font-size: 0.875rem;
+    color: #121212;
+    padding: 4px 0;
+}
+
+.meta-item svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    stroke: #121212;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}

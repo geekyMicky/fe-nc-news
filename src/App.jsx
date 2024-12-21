@@ -1,6 +1,6 @@
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import './assets/App.css';
+import './styling/App.css';
 import ArticleList from './components/ArticleList.jsx';
 import ArticleDetail from './components/ArticleDetail.jsx';
 import Home from './components/Home.jsx';

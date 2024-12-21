@@ -1,4 +1,4 @@
-import '../assets/ArticleList.css'
+import '../styling/ArticleList.css'
 import useAxios from "../hooks/useAxios";
 import ArticleCard from './ArticleCard';
 
