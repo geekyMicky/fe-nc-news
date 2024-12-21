@@ -14,6 +14,7 @@ const ArticleDetail = () => {
 
     const { userVotes, setUserVotes } = useContext(userContext);
     const [votes, setVotes] = useState(0);
+    const [voteError, setVoteError] = useState(null);
 
     const { data: articleData, isLoading: articleLoading, error: articleError } 
         = useAxios(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`);
@@ -32,6 +33,7 @@ const ArticleDetail = () => {
     const handleVoteClick = () => {
         const newVotes = { ...userVotes, [articleId]: !hasVoted };
         setUserVotes(newVotes);
+        setVoteError(null);
 
         if (!hasVoted) {
             setVotes(currentVotes => currentVotes + 1);
@@ -41,7 +43,7 @@ const ArticleDetail = () => {
             .catch(err => {
                 setVotes(currentVotes => currentVotes - 1);
                 setUserVotes({ ...newVotes, [articleId]: false });
-                console.log(err);
+                setVoteError("Failed to update vote. Please try again.")
             });
         } else {
             setVotes(currentVotes => currentVotes - 1);
@@ -51,7 +53,7 @@ const ArticleDetail = () => {
             .catch(err => {
                 setVotes(currentVotes => currentVotes + 1);
                 setUserVotes({ ...newVotes, [articleId]: true });
-                console.log(err);
+                setVoteError("Failed to cancel vote. Please try again.")
             });
         }
     };
@@ -85,10 +87,11 @@ const ArticleDetail = () => {
                 votes={votes} 
                 hasVoted={hasVoted} 
                 handleVoteClick={handleVoteClick} 
+                voteError={voteError}
             />
             
             <section className="comments-section">
-                <h3>Discussion</h3>
+                <h3>Comments</h3>
                 {sortedComments.map(comment => (
                     <CommentCard key={comment.comment_id} comment={comment} />
                 ))}

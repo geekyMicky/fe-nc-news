@@ -1,6 +1,6 @@
 import '../styling/MetaButtons.css';
 
-const MetaButtons = ({ article, votes, hasVoted, handleVoteClick }) => {
+const MetaButtons = ({ article, votes, hasVoted, handleVoteClick, voteError }) => {
     return (
         <div className="meta-buttons">
             <button className="meta-button">
@@ -18,6 +18,11 @@ const MetaButtons = ({ article, votes, hasVoted, handleVoteClick }) => {
                 </svg>
                 {votes} {hasVoted ? 'Voted' : 'Votes'}
             </button>
+            {voteError && (
+                <div className="vote-error" role="alert">
+                    {voteError}
+                </div>
+            )}
         </div>
     );
 };
