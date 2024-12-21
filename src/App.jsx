@@ -1,22 +1,33 @@
-import Header from './components/Header.jsx';
-import Footer from './components/Footer.jsx';
 import './styling/App.css';
-import ArticleList from './components/ArticleList.jsx';
-import ArticleDetail from './components/ArticleDetail.jsx';
-import Home from './components/Home.jsx';
+import { UserProvider } from './contexts/User';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ArticleList from './components/ArticleList';
+import ArticleDetail from './components/ArticleDetail';
+import Home from './components/Home';
+import Login from './components/Login';
 import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   return (
-    <>
+    <UserProvider>
       <Header />
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/articles" element={<ArticleList />} />
-        <Route path="/articles/:articleId" element={<ArticleDetail />} />
-      </Routes> 
+        <Route
+          path="/articles/:articleId"
+          element={
+            <ProtectedRoute>
+              <ArticleDetail />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
       <Footer />
-    </>
+    </UserProvider>
   );
 }
 
