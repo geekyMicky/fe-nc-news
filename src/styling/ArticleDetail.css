@@ -1,0 +1,52 @@
+.article-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: #fff;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.back-button {
+    align-self: flex-start;
+    margin-bottom: 30px;
+    text-decoration: none;
+    color: #121212;
+    font-family: 'Guardian Text Sans', Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.back-button:hover {
+    color: #c70000;
+}
+
+.article-detail h2 {
+    font-size: 2.5rem;
+    color: #121212;
+    margin-bottom: 12px;
+    text-align: left;
+    width: 100%;
+    font-weight: 700;
+    line-height: 1.1;
+    font-family: 'Guardian Egyptian', Georgia, serif;
+}
+
+.article-detail img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+    .article-detail {
+        padding: 30px 40px;
+    }
+    
+    .article-body {
+        font-size: 1.25rem;
+        line-height: 1.8;
+    }
+}

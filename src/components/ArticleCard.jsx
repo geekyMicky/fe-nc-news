@@ -1,4 +1,4 @@
-import '../assets/ArticleCard.css'
+import '../styling/ArticleCard.css'
 import { Link } from 'react-router-dom';
 
 const ArticleCard = ({article}) => {

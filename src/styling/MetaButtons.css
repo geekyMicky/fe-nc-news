@@ -1,0 +1,53 @@
+.meta-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    border-top: 1px solid #dcdcdc;
+    padding-top: 20px;
+}
+
+.meta-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    font-family: 'Guardian Text Sans', Arial, sans-serif;
+    font-size: 0.875rem;
+    color: #121212;
+    background-color: #f6f6f6;
+    border: none;
+    border-radius: 4px; 
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.meta-button:hover {
+    background-color: #e6e6e6;
+}
+
+.meta-button:focus {
+    outline: 2px solid #C70000;
+    outline-offset: -2px;
+}
+
+.meta-button svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    stroke: #121212;
+    stroke-width: 2;
+    fill: none;
+    transition: stroke 0.2s ease;
+}
+
+.meta-button:active,
+.meta-button.voted,
+.meta-button.active {
+    background-color: #C70000;
+    color: #ffffff;
+}
+
+.meta-button:active svg,
+.meta-button.voted svg,
+.meta-button.active svg {
+    stroke: #ffffff;
+}
