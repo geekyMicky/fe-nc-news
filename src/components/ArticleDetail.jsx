@@ -5,16 +5,17 @@ import useAxios from '../hooks/useAxios';
 import axios from 'axios';
 import '../styling/ArticleDetail.css';
 import CommentCard from './CommentCard';
+import AddComment  from './AddComment';
 import AuthorDate from './AuthorDate';
 import ArticleMeta from './ArticleMeta';
 import MetaButtons from './MetaButtons';
 
 const ArticleDetail = () => {
     const { articleId } = useParams();
-
     const { userVotes, setUserVotes } = useContext(userContext);
     const [votes, setVotes] = useState(0);
     const [voteError, setVoteError] = useState(null);
+    const [comments, setComments] = useState([]);
 
     const { data: articleData, isLoading: articleLoading, error: articleError } 
         = useAxios(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`);
@@ -58,6 +59,10 @@ const ArticleDetail = () => {
         }
     };
 
+    const handleAddComment = (newComment) => {
+        setComments([...comments, newComment]);
+    };
+
     if (articleLoading) return <div>Loading article...</div>;
     if (articleError) return <div>Error: {articleError}</div>;
     if (!articleData || !articleData.article) return <div>Article not found</div>;
@@ -89,11 +94,11 @@ const ArticleDetail = () => {
                 handleVoteClick={handleVoteClick} 
                 voteError={voteError}
             />
-            
+            <AddComment onAddComment={handleAddComment} />
             <section className="comments-section">
                 <h3>Comments</h3>
                 {sortedComments.map(comment => (
-                    <CommentCard key={comment.comment_id} comment={comment} />
+                    <CommentCard key={comment.comment_id} comment={comment} onAddComment={handleAddComment} />
                 ))}
             </section>
         </article>
