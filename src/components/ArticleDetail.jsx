@@ -64,9 +64,12 @@ const ArticleDetail = () => {
 
     useEffect(() => {
         if (commentsData?.comments) {
-            setComments(commentsData.comments);
+            const sortedInitialComments = commentsData.comments.sort((a, b) => 
+                new Date(b.created_at) - new Date(a.created_at)
+            );
+            setComments(sortedInitialComments);
         }
-    }, [commentsData]);
+    }, [commentsData?.comments]);
 
     const handleAddComment = (newComment) => {
         setIsPosting(true);
@@ -77,26 +80,15 @@ const ArticleDetail = () => {
             author: newComment.author
         };
 
-        setComments(prevComments => [...prevComments, newComment]);
-
-        console.log("Sending request with data:", {
-            url: `https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`,
-            data: newComment
-        });
-
         axios.post(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`, commentToSend)
         .then((response) => {
-            console.log("Comment added successfully!", response.data.comment);
+            setComments(prevComments => [response.data.comment, ...prevComments]);
             setIsPosting(false);
         })
-        .catch(err => {
-            setComments(comments.filter(comment => comment !== newComment));
+        .catch((error) => {
+            console.error("Error adding comment:", error);
             setCommentError("Failed to add comment. Please try again.");
             setIsPosting(false);
-
-            if (err.response?.status === 404) {
-                setCommentError("This article doesn't exist or has been removed.");
-            }
         });
     };
 
@@ -109,7 +101,6 @@ const ArticleDetail = () => {
     if (!commentsData || !commentsData.comments) return <div>No comments found</div>;
 
     const article = articleData.article;
-    const sortedComments = commentsData.comments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     
 
     return (
@@ -131,11 +122,11 @@ const ArticleDetail = () => {
                 handleVoteClick={handleVoteClick} 
                 voteError={voteError}
             />
-            <AddComment onAddComment={handleAddComment} />
+            <AddComment handleAddComment={handleAddComment} />
             <section className="comments-section">
                 <h3>Comments</h3>
-                {sortedComments.map(comment => (
-                    <CommentCard key={comment.comment_id} comment={comment} onAddComment={handleAddComment} />
+                {comments.map(comment => (
+                    <CommentCard key={comment.comment_id} comment={comment} handleAddComment={handleAddComment} />
                 ))}
             </section>
         </article>

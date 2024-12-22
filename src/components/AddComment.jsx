@@ -2,7 +2,7 @@ import '../styling/AddComment.css'
 import { useState, useContext } from "react";
 import { userContext } from '../contexts/userContext';
 
-const AddComment = ({ onAddComment }) => {
+const AddComment = ({ handleAddComment }) => {
     const [newComment, setNewComment] = useState("");
     const { user } = useContext(userContext);
 
@@ -16,7 +16,7 @@ const AddComment = ({ onAddComment }) => {
                 created_at: new Date().toISOString(),
                 votes: 0
             };
-            onAddComment(commentData);
+            handleAddComment(commentData);
             setNewComment("");
         }
     };
