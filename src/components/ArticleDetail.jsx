@@ -16,12 +16,15 @@ const ArticleDetail = () => {
     const [votes, setVotes] = useState(0);
     const [voteError, setVoteError] = useState(null);
     const [comments, setComments] = useState([]);
+    const [commentError, setCommentError] = useState(null);
+    const [isPosting, setIsPosting] = useState(false);
 
     const { data: articleData, isLoading: articleLoading, error: articleError } 
         = useAxios(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`);
     
     const { data: commentsData, isLoading: commentsLoading, error: commentsError }
         = useAxios(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`);
+
 
     useEffect(() => {
         if (articleData?.article) {
@@ -59,8 +62,42 @@ const ArticleDetail = () => {
         }
     };
 
+    useEffect(() => {
+        if (commentsData?.comments) {
+            setComments(commentsData.comments);
+        }
+    }, [commentsData]);
+
     const handleAddComment = (newComment) => {
-        setComments([...comments, newComment]);
+        setIsPosting(true);
+        setCommentError(null);
+        
+        const commentToSend = {
+            body: newComment.body,
+            author: newComment.author
+        };
+
+        setComments(prevComments => [...prevComments, newComment]);
+
+        console.log("Sending request with data:", {
+            url: `https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`,
+            data: newComment
+        });
+
+        axios.post(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`, commentToSend)
+        .then((response) => {
+            console.log("Comment added successfully!", response.data.comment);
+            setIsPosting(false);
+        })
+        .catch(err => {
+            setComments(comments.filter(comment => comment !== newComment));
+            setCommentError("Failed to add comment. Please try again.");
+            setIsPosting(false);
+
+            if (err.response?.status === 404) {
+                setCommentError("This article doesn't exist or has been removed.");
+            }
+        });
     };
 
     if (articleLoading) return <div>Loading article...</div>;
