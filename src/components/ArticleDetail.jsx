@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { userContext } from '../contexts/userContext';
 import useAxios from '../hooks/useAxios';
+import useArticleVotes from '../hooks/useArticleVotes';
 import axios from 'axios';
 import '../styling/ArticleDetail.css';
 import CommentCard from './CommentCard';
@@ -12,9 +12,6 @@ import MetaButtons from './MetaButtons';
 
 const ArticleDetail = () => {
     const { articleId } = useParams();
-    const { userVotes, setUserVotes } = useContext(userContext);
-    const [votes, setVotes] = useState(0);
-    const [voteError, setVoteError] = useState(null);
     const [comments, setComments] = useState([]);
     const [commentError, setCommentError] = useState(null);
     const [isPosting, setIsPosting] = useState(false);
@@ -25,42 +22,11 @@ const ArticleDetail = () => {
     const { data: commentsData, isLoading: commentsLoading, error: commentsError }
         = useAxios(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}/comments`);
 
+    const { votes, voteError, handleVoteClick, hasVoted } = useArticleVotes(
+        articleId,
+        articleData?.article?.votes
+    );
 
-    useEffect(() => {
-        if (articleData?.article) {
-            setVotes(articleData.article.votes);
-        }
-    }, [articleData]);
-
-    const hasVoted = !!userVotes[articleId];
-
-    const handleVoteClick = () => {
-        const newVotes = { ...userVotes, [articleId]: !hasVoted };
-        setUserVotes(newVotes);
-        setVoteError(null);
-
-        if (!hasVoted) {
-            setVotes(currentVotes => currentVotes + 1);
-            axios.patch(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`, {
-                inc_votes: 1
-            })
-            .catch(err => {
-                setVotes(currentVotes => currentVotes - 1);
-                setUserVotes({ ...newVotes, [articleId]: false });
-                setVoteError("Failed to update vote. Please try again.")
-            });
-        } else {
-            setVotes(currentVotes => currentVotes - 1);
-            axios.patch(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`, {
-                inc_votes: -1
-            })
-            .catch(err => {
-                setVotes(currentVotes => currentVotes + 1);
-                setUserVotes({ ...newVotes, [articleId]: true });
-                setVoteError("Failed to cancel vote. Please try again.")
-            });
-        }
-    };
 
     useEffect(() => {
         if (commentsData?.comments) {
@@ -122,7 +88,7 @@ const ArticleDetail = () => {
                 handleVoteClick={handleVoteClick} 
                 voteError={voteError}
             />
-            <AddComment handleAddComment={handleAddComment} />
+            <AddComment handleAddComment={handleAddComment} commentError={commentError} isPosting={isPosting}/>
             <section className="comments-section">
                 <h3>Comments</h3>
                 {comments.map(comment => (
