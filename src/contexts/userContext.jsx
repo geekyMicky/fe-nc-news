@@ -9,9 +9,12 @@ export const UserProvider = ({ children }) => {
     const [userVotes, setUserVotes] = useState({});
 
     const validUsers = [
-      "eevee",
-      "abzol",
-      "psyduck",
+        "tickle122",
+        "grumpy19",
+        "happyamy2016",
+        "cooljmessy",
+        "weegembump",
+        "jessjelly"
   ];
   
   return (
