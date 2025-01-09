@@ -82,11 +82,8 @@ const ArticleDetail = () => {
             <ArticleMeta article={article} />
             
             <MetaButtons 
-                article={article} 
-                votes={votes} 
-                hasVoted={hasVoted} 
-                handleVoteClick={handleVoteClick} 
-                voteError={voteError}
+                articleId={article.article_id} 
+                commentCount={article.comment_count}
             />
             <AddComment handleAddComment={handleAddComment} commentError={commentError} isPosting={isPosting}/>
             <section className="comments-section">
