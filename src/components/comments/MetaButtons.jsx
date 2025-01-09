@@ -1,13 +1,17 @@
 import '../../styling/MetaButtons.css';
+import useArticleVotes from '../../hooks/useArticleVotes';
 
-const MetaButtons = ({ article, votes, hasVoted, handleVoteClick, voteError }) => {
+const MetaButtons = ({ articleId, commentCount }) => {
+
+    const { votes, voteError, handleVoteClick, hasVoted } = useArticleVotes(articleId);
+
     return (
         <div className="meta-buttons">
             <button className="meta-button">
                 <svg viewBox="0 0 24 24">
                     <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                 </svg>
-                {article.comment_count} Comments
+                {commentCount} Comments
             </button>
             <button 
                 className={hasVoted ? 'meta-button voted' : 'meta-button'} 

@@ -1,10 +1,14 @@
 import '../../styling/ArticleList.css'
 import useAxios from "../../hooks/useAxios";
 import ArticleCard from './ArticleCard';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 const ArticleList = () => {
 
-    const {data, isLoading, error} = useAxios("https://nc-news-be-project-k6p0.onrender.com/api/articles");
+    const {data, isLoading, error} = useAxios("https://nc-news-be-project-k6p0.onrender.com/api/articles?sort_by=created_at&order=desc");
+
+    if (isLoading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} />;
 
     let sortedArticles = [];
     
@@ -15,18 +19,17 @@ const ArticleList = () => {
     return (
         <div className="ArticleList">
             <h2>Articles</h2>
-            {isLoading && <div>Loading...</div>}
-            {error && <div>{error}</div>}
-            {data && data.articles && (
-            <ul className="article-list">
-                {sortedArticles.map((article) => (
-                    <ArticleCard key={article.article_id} article={article} />
-                ))}
-            </ul>
+            {data?.articles?.length ? (
+                <ul className="article-list">
+                    {data.articles.map((article) => (
+                        <ArticleCard key={article.article_id} article={article} />
+                    ))}
+                </ul>
+            ) : (
+                <p>No articles found</p>
             )}
         </div>
     );
 }
 
 export default ArticleList;
-
