@@ -1,7 +1,7 @@
-import '../styling/Header.css'
+import '../../styling/Header.css';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { userContext } from '../contexts/userContext';
+import { userContext } from '../../contexts/userContext';
 
 const Header = () => {
     const { user, isLoggedIn, setIsLoggedIn, setUser } = useContext(userContext);
@@ -15,8 +15,6 @@ const Header = () => {
         <header>
             <h1>NC News</h1>
             <nav>
-                <Link to="/">Home</Link>
-                <Link to="/articles">Articles</Link>
                 {isLoggedIn ? (
                     <div className="user-info">
                         <span>Welcome, {user}</span>

@@ -16,6 +16,16 @@ export const UserProvider = ({ children }) => {
         "weegembump",
         "jessjelly"
   ];
+
+    const login = (username) => {
+        setUser(username);
+        setIsLoggedIn(true);
+    };
+
+    const logout = () => {
+        setUser(null);
+        setIsLoggedIn(false);
+    };
   
   return (
     <userContext.Provider value={{ 
@@ -25,7 +35,9 @@ export const UserProvider = ({ children }) => {
         setUserVotes,
         isLoggedIn,
         setIsLoggedIn,
-        validUsers 
+        validUsers,
+        login,
+        logout
     }}>
         {children}
     </userContext.Provider>

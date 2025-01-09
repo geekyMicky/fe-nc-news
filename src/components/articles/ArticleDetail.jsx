@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useAxios from '../hooks/useAxios';
-import useArticleVotes from '../hooks/useArticleVotes';
+import useAxios from '../../hooks/useAxios';
+import useArticleVotes from '../../hooks/useArticleVotes';
 import axios from 'axios';
-import '../styling/ArticleDetail.css';
-import CommentCard from './CommentCard';
-import AddComment  from './AddComment';
+import '../../styling/ArticleDetail.css';
+import CommentCard from '../comments/CommentCard';
+import AddComment  from '../comments/AddComment';
 import AuthorDate from './AuthorDate';
 import ArticleMeta from './ArticleMeta';
-import MetaButtons from './MetaButtons';
+import MetaButtons from '../comments/MetaButtons';
 
 const ArticleDetail = () => {
     const { articleId } = useParams();
     const [comments, setComments] = useState([]);
     const [commentError, setCommentError] = useState(null);
-    const [isPosting, setIsPosting] = useState(false);
+    const [isPosting, setIsPosting] = useState(false); //???
 
     const { data: articleData, isLoading: articleLoading, error: articleError } 
         = useAxios(`https://nc-news-be-project-k6p0.onrender.com/api/articles/${articleId}`);

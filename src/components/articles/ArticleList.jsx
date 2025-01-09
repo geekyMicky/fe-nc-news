@@ -1,5 +1,5 @@
-import '../styling/ArticleList.css'
-import useAxios from "../hooks/useAxios";
+import '../../styling/ArticleList.css'
+import useAxios from "../../hooks/useAxios";
 import ArticleCard from './ArticleCard';
 
 const ArticleList = () => {

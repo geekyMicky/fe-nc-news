@@ -1,4 +1,4 @@
-import '../styling/ArticleMeta.css';
+import '../../styling/ArticleMeta.css';
 
 const ArticleMeta = ({ article }) => {
     return (
