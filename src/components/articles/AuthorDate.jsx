@@ -1,4 +1,4 @@
-import '../styling/AuthorDate.css';
+import '../../styling/AuthorDate.css';
 
 const AuthorDate = ({ article }) => {
     return (

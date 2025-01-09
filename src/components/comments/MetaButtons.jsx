@@ -1,4 +1,4 @@
-import '../styling/MetaButtons.css';
+import '../../styling/MetaButtons.css';
 
 const MetaButtons = ({ article, votes, hasVoted, handleVoteClick, voteError }) => {
     return (
